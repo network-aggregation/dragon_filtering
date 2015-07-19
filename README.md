@@ -1,5 +1,4 @@
-# filtering
-DRAGON's filtering code
+# DRAGON's filtering code
 
 This README is aimed at explaining the use of programs Filter and Aggprefs.
 Filter is used to measure the filtering efficiency of ASs in a network-wide implementation of DRAGON.
