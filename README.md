@@ -11,16 +11,16 @@ Their optimal use is in a UNIX-based operating system such as Linux.
 In order to execute either of these programs, it might be necessary to initially re-compile them.
 To do so, simply open a terminal in the program's main directory and type:
 
-'''
+```
 make clean
 make
-'''
+```
 
 # Executing the program
 To execute the programs from a terminal in their main directory, simply type:
 
--For Filter: ./bin/filter <NETWORK_FILE> <PREFIX_FILE>
--For Aggprefs: ./bin/aggpregs <NETWORK_FILE> <PREFIX_FILE>
+- For Filter: ./bin/filter <NETWORK_FILE> <PREFIX_FILE>
+- For Aggprefs: ./bin/aggpregs <NETWORK_FILE> <PREFIX_FILE>
 
 The arguments <NETWORK_FILE> and <PREFIX_FILE> are described in further detail in the INPUTS text file.
 Both arguments are mandatory.
