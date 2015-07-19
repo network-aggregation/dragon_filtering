@@ -1,0 +1,62 @@
+Both programs for calculating filtering efficiency and for generating aggregation prefixes receive two files as input arguments: A <NETWORK_FILE> and a <PREFIX_FILE>.
+
+1. <NETWORK_FILE>
+The file should represent a network of ASs, in which links connecting the ASs should reflect the Gao-Rexford routing policy, i.e. the provider-customer and peer-peer agreements.
+
+For each AS in the network, the input file should have the following set of lines:
+<AS_NUMBER> <AMOUNT_OF_CUSTOMERS_(C)> <AMOUNT_OF_PEERS_(R)> <AMOUNT_OF_PROVIDERS_(P)>
+<AS_NUMBER_OF_CUSTOMER_1>
+<AS_NUMBER_OF_CUSTOMER_2>
+(...)
+<AS_NUMBER_OF_CUSTOMER_C-1>
+<AS_NUMBER_OF_CUSTOMER_C>
+<AS_NUMBER_OF_PEER_1>
+<AS_NUMBER_OF_PEER_2>
+(...)
+<AS_NUMBER_OF_PEER_R-1>
+<AS_NUMBER_OF_PEER_R>
+<AS_NUMBER_OF_PROVIDER_1>
+<AS_NUMBER_OF_PROVIDER_2>
+(...)
+<AS_NUMBER_OF_PROVIDER_P-1>
+<AS_NUMBER_OF_PROVIDER_P>
+
+We note the following aspects:
+- The network should be policy-connected and free of provider-customer cycles (i.e., closed paths of ASs in which each AS is a provider of the next AS around the cycle).
+- An AS number must have an integer value greater than 0, and lower than 65536.
+- The program will not function for networks with over 65535 ASs.
+- An AS may have, at most, 65535 links of each type (i.e., no more than 65535 customers, 65535 peers and 65535 providers).
+- Each link must exist twice in the file, once for each of the participating ASs.
+- A pair of ASs may have only one type of link connecting them (for example, an AS cannot simultaneously be a peer and a provider of another AS).
+
+Take a simple example of a network composed of two peered ASs, AS 1 and AS 2, both of which are providers to ASs 3 and 4. The corresponding network file would look like this:
+
+1 2 1 0
+3
+4
+2
+2 2 1 0
+4
+3
+1
+3 0 0 2
+1
+2
+4 0 0 2
+2
+1
+
+When describing a set of an AS's customers, peers or providers, the order in which AS numbers occur in the file is irrelevant. However, all of an AS's customers must appear before its peers, and all of its peers before its providers.
+
+2. <PREFIX_FILE>
+The file should represent a set of IPv4 prefixes originated in the network, which may either be prefixes allocated to the ASs, or generated aggregation prefixes. Its format is as follows:
+
+The first line of the file must be an integer value with the amount of aggregation prefixes present in the file. Each of the following lines must have the following format:
+
+<IPV4_PREFIX> <ORIGINATING_AS_NUMBER> <O|N>
+-> <IPV4_PREFIX> - An IPv4 prefix in dot-decimal notation (x.x.x.x/y)
+-> <ORIGINATING_AS_NUMBER> - The number of the AS which originates the prefix
+-> <O|N> - A letter representing whether this is an aggregation prefix (N) or an originally allocated prefix (O)
+
+It should be noted that these programs assume a Unicast environment, i.e. each prefix may be originated by only one AS.
+It is also assumed that the more specific prefixes are originated at ASs which are direct or indirect customers of the ASs originating the less specific prefixes. It is however possible for the same AS to announce prefixes with different specificities, assuming there is no prefix with an intermediate level of specificity originated at a different AS.
